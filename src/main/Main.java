@@ -1,5 +1,8 @@
 package main;
 
+import java.math.BigInteger;
+
+import jsMath.probability.Probability;
 import jsMath.twoD.LinearEq;
 import jsMath.twoD.Point2D;
 import jsMath.twoD.Quadratic;
@@ -25,6 +28,10 @@ public class Main {
 		
 		
 		System.out.println(q1.integral(0, 1));
+		
+		
+		float n = Probability.binomial(.5,10,5);
+		System.out.println(n);
 	}
 	
 }
