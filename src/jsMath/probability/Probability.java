@@ -30,6 +30,17 @@ public class Probability {
 		
 	}
 	
+	public static long permutations(int n, int r) {
+		
+		BigInteger nFac = factorial(n);
+		BigInteger nr= factorial(n-r);
+		
+		BigInteger ret = nFac.divide(nr);
+		
+		return ret.longValue();
+		
+	}
+	
 	// Binomial probability given likelihood p, in n trials with x successes
 	public static float binomial(double p, int n, int x) {
 		
