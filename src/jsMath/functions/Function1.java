@@ -3,8 +3,8 @@ package jsMath.functions;
 import jsMath.twoD.Point2D;
 public class Function1 {
 	
-	char var;
-	String exp;
+	public char var;
+	public String exp;
 	//Class for a function in 1 variable i.e. y = f(x) where var is the variable and exp is the whole function expression
 	public Function1(char var, String exp) {
 		this.var = var;
@@ -38,11 +38,110 @@ public class Function1 {
 		return ret;	
 		
 	}
+	
+	/*public Function1 derivative() {
+		
+		
+		
+	}
+	*/
+	
+	public Function1[] split() {
+		String[] terms = exp.split("\\+");
+		Function1[] funcs = new Function1[terms.length];
+		
+		for (int i = 0; i < funcs.length; i ++) {
+			Function1 f = new Function1(var, terms[i]);
+			funcs[i] = f;
+		}
+		
+		return funcs;
+		
+	}
+	
+	/*
+	public Function1 derive() {
+		return new Object() {
+			
+			Function1 tof(){
+				Function1 f = new Function1(var, parse());
+				return f;
+			}
+			
+			int pos = -1, ch;
+
+	        void nextChar() {
+	            ch = (++pos < exp.length()) ? exp.charAt(pos) : -1;
+	        }
+
+	        boolean eat(int charToEat) {
+	            while (ch == ' ') nextChar();
+	            if (ch == charToEat) {
+	                nextChar();
+	                return true;
+	            }
+	            return false;
+	        }
+
+	        String parse() {
+	            nextChar();
+	            String x = parseExpression();
+	            if (pos < exp.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+	            return x;
+	        }
+	        
+	        String parseExpression() {
+	            String x = parseTerm();
+	            for (;;) {
+	                if      (eat('+')) x = parseTerm(); // addition
+	                else if (eat('-')) x = parseTerm(); // subtraction
+	                else return x;
+	            }
+	        }
+	        
+	        String parseTerm() {
+	            String x = parseFactor();
+	            for (;;) {
+	                if      (eat('*')) x = parseFactor(); // multiplication
+	                else if (eat('/')) x = parseFactor(); // division
+	                else return x;
+	            }
+	        }
+
+	        
+	        String parseFactor() {
+	            if (eat('+')) return parseFactor(); // unary plus
+	            if (eat('-')) return parseFactor(); // unary minus
+
+
+	            double con;
+	            int startPos = this.pos;
+	            if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+	                while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+	                con = Double.parseDouble(exp.substring(startPos, this.pos));
+	            }
+	            else if (ch >= 'a' && ch <= 'z') { // functions
+	                while (ch >= 'a' && ch <= 'z') nextChar();
+	                String func = exp.substring(startPos, this.pos);
+	                con = 0*ch;
+	            }
+	            else {
+	                throw new RuntimeException("Unexpected: " + (char)ch);
+	            }
+
+	            if (eat('^')) con = con * Double.parseDouble(parseFactor()); // exponentiation
+
+	            return Double.toString(con);
+	        }
+			
+		}.tof();
+	}
+	*/
 	//Expression parser from https://stackoverflow.com/questions/3422673/how-to-evaluate-a-math-expression-given-in-string-form
 	public static double eval(final String str) {
 	    return new Object() {
 	        int pos = -1, ch;
-
+  
 	        void nextChar() {
 	            ch = (++pos < str.length()) ? str.charAt(pos) : -1;
 	        }
