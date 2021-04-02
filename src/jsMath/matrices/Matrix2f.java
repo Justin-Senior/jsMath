@@ -65,14 +65,14 @@ public class Matrix2f {
 		
 	}
 	
-	public static Matrix2f multiply(Matrix2i m1, Matrix2i m2) {
+	public static Matrix2f multiply(Matrix2f m1, Matrix2f m2) {
 		
 		float[][] mat = new float[2][2];
 		
 		for(int i = 0; i < 2; i ++) {
 			for (int j = 0; j < 2; j++) {
 				for (int k = 0; k < 2; k++) {
-					mat[i][j] += m1.get(i, k) * m2.get(j,k);
+					mat[i][j] += m1.get(i, k) * m2.get(k,j);
 				}
 			}
 		}
@@ -97,13 +97,27 @@ public class Matrix2f {
 		
 		float det = Math.abs(this.determinant());
 		
-		mat[0][0] = matrix[0][0]/det;
-		mat[0][1] = -matrix[1][0]/det;
-		mat[1][0] = -matrix[0][1]/det;
-		mat[1][1] = matrix[1][1]/det;
+		mat[0][0] = matrix[1][1]/det;
+		mat[0][1] = -matrix[0][1]/det;
+		mat[1][0] = -matrix[1][0]/det;
+		mat[1][1] = matrix[0][0]/det;
 		
 		Matrix2f ret = new Matrix2f(mat);
 		return ret;
+		
+	}
+	
+	@Override
+	public String toString() {
+		String ret = "";
+		for(int i = 0; i < 2; i++) {
+			for(int j = 0; j < 2; j++) {
+				ret += Float.toString(matrix[i][j]) + ",";
+			}
+			ret += "\n";
+		}
+		return ret;
+		
 		
 	}
 	
