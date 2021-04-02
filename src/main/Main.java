@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import jsMath.functions.Function1;
 import jsMath.matrices.Matrix2f;
 import jsMath.matrices.Matrix2i;
+import jsMath.matrices.Matrix3f;
 import jsMath.probability.Probability;
 import jsMath.twoD.LinearEq;
 import jsMath.twoD.Point2D;
@@ -17,22 +18,20 @@ public class Main {
 	//Simple testing of functions
 	public static void main(String[] args) throws Exception {
 
-		float [] top = {5,8};
-		float [] bot = {3,8};
+		float [] top = {5,8,3};
+		float [] mid = {1,2,3};
+		float [] bot = {3,8,5};
 		
 		float[] top1 = {3,8};
 		float[] bot1 = {8,9};
 		
-		Matrix2f m1 = new Matrix2f(top, bot);
+		Matrix3f m1 = new Matrix3f(top, mid, bot);
+		
 		Matrix2f m2 = new Matrix2f(top1, bot1);
+		Matrix2f m3 = m2.inverse();
 		
-		Matrix2f m3 = Matrix2f.multiply(m1,m2);
-		Matrix2f m4 = m1.inverse();
-		
-		Matrix2f m5 = Matrix2f.multiply(m1, m4);
-		
-		System.out.println(m3.toString());
-			
+		assert (Matrix2f.multiply(m2, m3).approxEqual(Matrix2f.id, 0.001));
+		assert (Matrix2f.multiply(m3, m2).approxEqual(Matrix2f.id, 0.001));
 	}
 	
 }

@@ -90,5 +90,17 @@ public class Matrix2i {
 		
 	}
 	
+	@Override
+	public String toString() {
+		String ret = "";
+		for(int i = 0; i < 2; i++) {
+			for(int j = 0; j < 2; j++) {
+				ret += Float.toString(matrix[i][j]) + ",";
+			}
+			ret += "\n";
+		}
+		return ret;
+	}
+	
 
 }

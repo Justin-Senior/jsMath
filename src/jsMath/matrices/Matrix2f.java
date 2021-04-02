@@ -5,6 +5,9 @@ public class Matrix2f {
 	
 	public float[][] matrix = new float[2][2];
 	
+	static float[][] idf = {{1,0},{0,1}};;
+	
+	public static Matrix2f id = new Matrix2f(idf);
 	
 	public Matrix2f(float[] top, float[] bottom) throws Exception{
 		
@@ -12,7 +15,6 @@ public class Matrix2f {
 		
 		this.matrix[0] = top;
 		this.matrix[1] = bottom;
-		
 	}
 	
 	public Matrix2f(float[][] matrix) {
@@ -25,7 +27,7 @@ public class Matrix2f {
 		return matrix[x][y];
 	}
 	
-	public static Matrix2f constMult(float c, Matrix2i m) throws Exception {
+	public static Matrix2f constMult(float c, Matrix2f m) throws Exception {
 		
 		float[] top = new float[2];
 		float[] bot = new float[2];
@@ -95,7 +97,7 @@ public class Matrix2f {
 		
 		if (this.determinant() == 0) throw new Exception("Not invertible");
 		
-		float det = Math.abs(this.determinant());
+		float det = this.determinant();
 		
 		mat[0][0] = matrix[1][1]/det;
 		mat[0][1] = -matrix[0][1]/det;
@@ -105,6 +107,15 @@ public class Matrix2f {
 		Matrix2f ret = new Matrix2f(mat);
 		return ret;
 		
+	}
+	
+	public boolean approxEqual(Matrix2f m2, double tol) {
+		for(int i = 0; i < 2; i ++) {
+			for(int j = 0; j < 2; j ++) {
+				if(Math.abs(this.get(i, j)- m2.get(i, j)) > tol) return false; 
+			}
+		}
+		return true;
 	}
 	
 	@Override
@@ -117,8 +128,10 @@ public class Matrix2f {
 			ret += "\n";
 		}
 		return ret;
-		
-		
 	}
+	
+	
+	
+	
 	
 }
