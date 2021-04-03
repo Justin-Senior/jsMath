@@ -101,6 +101,5 @@ public class Matrix2i {
 		}
 		return ret;
 	}
-	
 
 }

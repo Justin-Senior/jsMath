@@ -1,13 +1,16 @@
 package jsMath.matrices;
+
+import jsMath.twoD.Quadratic;
+
 //Represents 2x2 matrices with float values.
-//There is not method to invert the matrix because integer matrices are not guaranteed invertible
+
 public class Matrix2f {
 	
 	public float[][] matrix = new float[2][2];
 	
-	static float[][] idf = {{1,0},{0,1}};;
+	private static final float[][] idf = {{1,0},{0,1}};;
 	
-	public static Matrix2f id = new Matrix2f(idf);
+	public static final Matrix2f id = new Matrix2f(idf);
 	
 	public Matrix2f(float[] top, float[] bottom) throws Exception{
 		
@@ -26,7 +29,7 @@ public class Matrix2f {
 	public float get(int x, int y) {
 		return matrix[x][y];
 	}
-	
+	//Multiplies matrix by a constant and returns a new matrix
 	public static Matrix2f constMult(float c, Matrix2f m) throws Exception {
 		
 		float[] top = new float[2];
@@ -95,9 +98,8 @@ public class Matrix2f {
 	public Matrix2f inverse() throws Exception{
 		float[][] mat = new float[2][2];
 		
-		if (this.determinant() == 0) throw new Exception("Not invertible");
-		
 		float det = this.determinant();
+		if (det == 0) throw new Exception("Not invertable, determinant is 0");
 		
 		mat[0][0] = matrix[1][1]/det;
 		mat[0][1] = -matrix[0][1]/det;
@@ -118,6 +120,17 @@ public class Matrix2f {
 		return true;
 	}
 	
+	public float[] eigenvalues() throws Exception {
+		float x = matrix[0][0];
+		float y = matrix[1][1];
+		float i = matrix[0][1];
+		float j = matrix[1][0];
+		
+		Quadratic q = new Quadratic(1, x+y, x*y-i*j);
+		return q.roots();
+		
+	}
+	
 	@Override
 	public String toString() {
 		String ret = "";
@@ -129,9 +142,5 @@ public class Matrix2f {
 		}
 		return ret;
 	}
-	
-	
-	
-	
 	
 }

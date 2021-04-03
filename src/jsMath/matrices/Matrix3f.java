@@ -1,9 +1,12 @@
 package jsMath.matrices;
-//Represents 2x2 matrices with float values.
-//There is not method to invert the matrix because integer matrices are not guaranteed invertible
+//Represents 3x3 matrices with float values.
 public class Matrix3f {
 	
 	public float[][] matrix = new float[3][3];
+	
+	private static final float[][] idf = {{1,0,0},{0,1,0},{0,0,1}};
+	
+	public static final Matrix3f id = new Matrix3f(idf);
 	
 	
 	public Matrix3f(float[] top, float [] mid, float[] bottom) throws Exception{
@@ -25,8 +28,8 @@ public class Matrix3f {
 	public float get(int x, int y) {
 		return matrix[x][y];
 	}
-	
-	public static Matrix3f constMult(float c, Matrix2i m) throws Exception {
+	//Multiplies the matrix by a constant and returns a new matrix
+	public static Matrix3f constMult(float c, Matrix3f m) throws Exception {
 		
 		float[] top = new float[3];
 		float[] mid = new float[3];
@@ -84,6 +87,20 @@ public class Matrix3f {
 		return m3;
 		
 	}
+	//Compute the transpose of a matrix
+	public Matrix3f transpose() {
+		
+		float[][] trans = new float[3][3];
+		
+		for(int i = 0; i < 3; i++) {
+			for (int j=0; j< 3; j++) {
+				trans[j][i] = this.get(i, j);
+			}
+		}
+		
+		return (new Matrix3f(trans));
+		
+	}
 	//Create a submatrix from a 3x3 matrix by excluding row x and column y
 	public Matrix2f subMatrix(int x, int y) {
 		
@@ -122,24 +139,53 @@ public class Matrix3f {
 		return det;
 		
 	}
-	/*
+	
 	public Matrix3f inverse() throws Exception{
-		float[][] mat = new float[3][3];
+		float[][] minors = new float[3][3];
 		
-		if (this.determinant() == 0) throw new Exception("Not invertible");
+		int cnt = 0;
+		int fact = 1;
 		
-		float det = Math.abs(this.determinant());
+		float det = this.determinant();
 		
-		mat[0][0] = matrix[1][1]/det;
-		mat[0][1] = -matrix[0][1]/det;
-		mat[1][0] = -matrix[1][0]/det;
-		mat[1][1] = matrix[0][0]/det;
+		for(int i = 0; i < 3; i++) {
+			for (int j= 0; j < 3; j++){
+				if (cnt %2 == 0) fact = 1; else fact = -1;
+				minors[i][j] = this.subMatrix(i, j).determinant()* fact;
+				cnt += 1;
+			}
+		}
 		
-		Matrix3f ret = new Matrix3f(mat);
+		Matrix3f cofact = new Matrix3f(minors);
+		Matrix3f adj = cofact.transpose();
+		
+		Matrix3f ret = Matrix3f.constMult(1/det, adj);
 		return ret;
 		
 	}
-	*/
+	
+	
+	public boolean approxEqual(Matrix3f m2, double tol) {
+		for(int i = 0; i < 3; i ++) {
+			for(int j = 0; j < 3; j ++) {
+				if(Math.abs(this.get(i, j)- m2.get(i, j)) > tol) return false; 
+			}
+		}
+		return true;
+	}
+	//TODO finish this lol
+	public float[] eigenvalues() {
+		float[] vars = new float[9];
+		int cnt = 0;
+		for(int i = 0; i < 3; i ++) {
+			for(int j = 0; j < 3; j ++) {
+				vars[i] = matrix[i][j];
+				cnt ++;
+			}
+		}
+		return vars;
+	}
+	
 	@Override
 	public String toString() {
 		String ret = "";
