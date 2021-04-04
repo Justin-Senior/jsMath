@@ -1,7 +1,4 @@
 package jsMath.matrices;
-
-import jsMath.twoD.Cubic;
-
 //Represents 3x3 matrices with float values.
 public class Matrix3f {
 	
@@ -176,35 +173,17 @@ public class Matrix3f {
 		}
 		return true;
 	}
-	//use a cubic root solver to find roots of characteristic polynomial. Does not return complex eigenvalues.
-	public float[] eigenvalues() throws Exception {
+	//TODO finish this lol
+	public float[] eigenvalues() {
 		float[] vars = new float[9];
 		int cnt = 0;
 		for(int i = 0; i < 3; i ++) {
 			for(int j = 0; j < 3; j ++) {
-				vars[cnt] = matrix[i][j];
+				vars[i] = matrix[i][j];
 				cnt ++;
 			}
 		}
-		float x = vars[0];
-		float i = vars[1];
-		float j = vars[2];
-		float k = vars[3];
-		float y = vars[4];
-		float l = vars[5];
-		float m = vars[6];
-		float n = vars[7];
-		float z = vars[8];
-		
-		float t1 = x + y + z;
-		float t2 = (j*m + i*k + l*n) - (x*y + x*z + y*z);
-		float t3 = x*y*z + i*l*m + j*k*n - m*y*j-n*l*x-z*k*i;
-		
-		Cubic c = new Cubic(-1,t1,t2,t3);
-		
-		System.out.println(c.toString());
-		
-		return c.roots();
+		return vars;
 	}
 	
 	@Override
