@@ -9,6 +9,7 @@ public class Function1 {
 	public Function1(char var, String exp) {
 		this.var = var;
 		this.exp = exp;
+	
 		
 	}
 	
