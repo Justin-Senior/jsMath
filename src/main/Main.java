@@ -7,6 +7,7 @@ import jsMath.matrices.Matrix2f;
 import jsMath.matrices.Matrix2i;
 import jsMath.matrices.Matrix3f;
 import jsMath.probability.Probability;
+import jsMath.twoD.Cubic;
 import jsMath.twoD.LinearEq;
 import jsMath.twoD.Point2D;
 import jsMath.twoD.Quadratic;
@@ -37,7 +38,11 @@ public class Main {
 		assert (Matrix3f.multiply(m1, m4).approxEqual(Matrix3f.id, 0.001));
 		assert (Matrix3f.multiply(m4, m1).approxEqual(Matrix3f.id, 0.001));
 		
-		System.out.println(m2.eigenvalues()[0] + "," + m2.eigenvalues()[1]);
+		Cubic c = new Cubic(1, -3, 1, 1);
+		
+		System.out.println(m1.eigenvalues()[0] + "," + m1.eigenvalues()[1] + "," + m1.eigenvalues()[2]);
+		
+		System.out.println(c.roots()[0] + ", " + c.roots()[1] + ", " + c.roots()[2]);
 	}
 	
 }
