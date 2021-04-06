@@ -1,20 +1,17 @@
 package jsMath.matrices;
 
+import jsMath.exceptions.MatrixIndexException;
+import jsMath.exceptions.MatrixInitException;
 import jsMath.twoD.Cubic;
 
 //Represents 3x3 matrices with float values.
-public class Matrix3f {
+public class Matrix3f{
 	
-	public float[][] matrix = new float[3][3];
+	private float[][] matrix = new float[3][3];
 	
-	private static final float[][] idf = {{1,0,0},{0,1,0},{0,0,1}};
-	
-	public static final Matrix3f id = new Matrix3f(idf);
-	
-	
-	public Matrix3f(float[] top, float [] mid, float[] bottom) throws Exception{
+	public Matrix3f(float[] top, float [] mid, float[] bottom) throws MatrixInitException{
 		
-		if (top.length != 3 || bottom.length != 3) throw new Exception("Input arrays must be of length 2");
+		if (top.length != 3 || bottom.length != 3) throw new MatrixInitException("Input arrays must be of length 3");
 		
 		this.matrix[0] = top;
 		this.matrix[1] = mid;
@@ -22,13 +19,22 @@ public class Matrix3f {
 		
 	}
 	
-	public Matrix3f(float[][] matrix) {
-		assert(matrix[0].length == 3 && matrix[1].length == 3 && matrix[2].length == 3);
+	public Matrix3f(float[][] matrix) throws MatrixInitException {
+		
+		if (matrix[0].length != 3 || matrix[1].length != 3 || matrix[2].length != 3) throw new MatrixInitException("Matrix array is not 3x3");
 		
 		this.matrix = matrix;
 	}
+	// The identitry matrix
+	public static Matrix3f id() throws MatrixInitException {
+		float[][] idf = {{1,0,0},{0,1,0},{0,0,1}};
+		Matrix3f id = new Matrix3f(idf);
+		return id;
+	}
+	
 	//get the entry x,y
-	public float get(int x, int y) {
+	public float get(int x, int y) throws MatrixIndexException{
+		if (x >= 3 || y >= 3) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
 	//Multiplies the matrix by a constant and returns a new matrix
@@ -50,7 +56,6 @@ public class Matrix3f {
 	}
 	//returns the sum of one of the rows
 	public float rowSum(int x) {
-		assert (x == 2);
 		
 		float sum = 0;
 		for(int i = 0; i < 3; i++) {
@@ -62,8 +67,7 @@ public class Matrix3f {
 	}
 	
 	//returns the sum of one of the columns
-	public float colSum(int x) {
-		assert(x == 2);
+	public float colSum(int x) throws MatrixIndexException{
 		
 		float sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -73,8 +77,7 @@ public class Matrix3f {
 		return sum;
 		
 	}
-	
-	public static Matrix3f multiply(Matrix3f m1, Matrix3f m2) {
+	public static Matrix3f multiply(Matrix3f m1, Matrix3f m2) throws MatrixIndexException, MatrixInitException{
 		
 		float[][] mat = new float[3][3];
 		
@@ -91,7 +94,7 @@ public class Matrix3f {
 		
 	}
 	//Compute the transpose of a matrix
-	public Matrix3f transpose() {
+	public Matrix3f transpose() throws MatrixIndexException, MatrixInitException{
 		
 		float[][] trans = new float[3][3];
 		
@@ -168,7 +171,7 @@ public class Matrix3f {
 	}
 	
 	
-	public boolean approxEqual(Matrix3f m2, double tol) {
+	public boolean approxEqual(Matrix3f m2, double tol) throws MatrixIndexException{
 		for(int i = 0; i < 3; i ++) {
 			for(int j = 0; j < 3; j ++) {
 				if(Math.abs(this.get(i, j)- m2.get(i, j)) > tol) return false; 
@@ -177,7 +180,7 @@ public class Matrix3f {
 		return true;
 	}
 	//use a cubic root solver to find roots of characteristic polynomial. Does not return complex eigenvalues.
-	public float[] eigenvalues() throws Exception {
+	public float[] eigenvalues(){
 		float[] vars = new float[9];
 		int cnt = 0;
 		for(int i = 0; i < 3; i ++) {
@@ -212,7 +215,7 @@ public class Matrix3f {
 		String ret = "";
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				ret += Float.toString(matrix[i][j]) + ",";
+				ret += (matrix[i][j]) + ",";
 			}
 			ret += "\n";
 		}

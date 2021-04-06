@@ -1,5 +1,7 @@
 package jsMath.twoD;
 
+import jsMath.exceptions.SlopeException;
+
 public class LinearEq {
 	
 	public float a;
@@ -16,10 +18,10 @@ public class LinearEq {
 		return p;
 	}
 	//Find the intersection point of 2 lines
-	public static Point2D intersection(LinearEq l1, LinearEq l2) throws Exception {
+	public static Point2D intersection(LinearEq l1, LinearEq l2) throws SlopeException {
 		
 		if (l1.a == l2.a) {
-			throw new Exception("Invlaid lines: same slope");
+			throw new SlopeException("Invlaid lines: same slope");
 		}
 		
 		float x = (l1.b - l2.b)/(l2.a-l1.a);

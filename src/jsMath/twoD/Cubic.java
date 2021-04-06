@@ -14,7 +14,7 @@ public class Cubic {
 		this.d = d;
 	}
 	// find the roots of a cubic(if they exist)
-	public float[] roots() throws Exception{
+	public float[] roots(){
 		float[] ret = new float[3];
 		
 		for(int i= 0; i < solveCubic(a,b,c,d).length; i++) {
@@ -23,7 +23,7 @@ public class Cubic {
 		
 		return ret;
 	}
-	//Does the heavy lifting of the root finding from https://stackoverflow.com/questions/43559140
+	//Does the heavy lifting of the root finding; from https://stackoverflow.com/questions/43559140
 	public static double[] solveCubic(double d, double a, double b, double c) {
         double[] result;
         if (d != 1) {

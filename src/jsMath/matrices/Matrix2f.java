@@ -1,20 +1,18 @@
 package jsMath.matrices;
 
+import jsMath.exceptions.MatrixIndexException;
+import jsMath.exceptions.MatrixInitException;
 import jsMath.twoD.Quadratic;
 
 //Represents 2x2 matrices with float values.
 
 public class Matrix2f {
 	
-	public float[][] matrix = new float[2][2];
+	private float[][] matrix = new float[2][2];
 	
-	private static final float[][] idf = {{1,0},{0,1}};;
-	
-	public static final Matrix2f id = new Matrix2f(idf);
-	
-	public Matrix2f(float[] top, float[] bottom) throws Exception{
+	public Matrix2f(float[] top, float[] bottom) throws MatrixInitException{
 		
-		if (top.length != 2 || bottom.length != 2) throw new Exception("Input arrays must be of length 2");
+		if (top.length != 2 || bottom.length != 2) throw new MatrixInitException("Input arrays must be of length 2");
 		
 		this.matrix[0] = top;
 		this.matrix[1] = bottom;
@@ -25,12 +23,23 @@ public class Matrix2f {
 		
 		this.matrix = matrix;
 	}
+	
+	
+	//returns the identity matrix
+	public static Matrix2f id() {
+		float[][] idf = {{1,0},{0,1}};;
+		
+		Matrix2f id = new Matrix2f(idf);
+		return id;
+	}
+	
 	//get the entry x,y
-	public float get(int x, int y) {
+	public float get(int x, int y) throws MatrixIndexException {
+		if (x >= 2 || y >= 2) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
 	//Multiplies matrix by a constant and returns a new matrix
-	public static Matrix2f constMult(float c, Matrix2f m) throws Exception {
+	public static Matrix2f constMult(float c, Matrix2f m) throws MatrixInitException, MatrixIndexException {
 		
 		float[] top = new float[2];
 		float[] bot = new float[2];
@@ -46,7 +55,6 @@ public class Matrix2f {
 	}
 	//returns the sum of one of the rows
 	public float rowSum(int x) {
-		assert (x == 2);
 		
 		float sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -58,9 +66,8 @@ public class Matrix2f {
 	}
 	
 	//returns the sum of one of the columns
-	public float colSum(int x) {
-		assert(x == 2);
-		
+	public float colSum(int x) throws MatrixIndexException {
+
 		float sum = 0;
 		for(int i = 0; i < 2; i++) {
 			sum += get(i,x);
@@ -70,7 +77,7 @@ public class Matrix2f {
 		
 	}
 	
-	public static Matrix2f multiply(Matrix2f m1, Matrix2f m2) {
+	public static Matrix2f multiply(Matrix2f m1, Matrix2f m2) throws MatrixIndexException {
 		
 		float[][] mat = new float[2][2];
 		
@@ -111,7 +118,7 @@ public class Matrix2f {
 		
 	}
 	
-	public boolean approxEqual(Matrix2f m2, double tol) {
+	public boolean approxEqual(Matrix2f m2, double tol) throws MatrixIndexException {
 		for(int i = 0; i < 2; i ++) {
 			for(int j = 0; j < 2; j ++) {
 				if(Math.abs(this.get(i, j)- m2.get(i, j)) > tol) return false; 
@@ -136,7 +143,7 @@ public class Matrix2f {
 		String ret = "";
 		for(int i = 0; i < 2; i++) {
 			for(int j = 0; j < 2; j++) {
-				ret += Float.toString(matrix[i][j]) + ",";
+				ret += matrix[i][j] + ",";
 			}
 			ret += "\n";
 		}

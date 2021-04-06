@@ -1,5 +1,7 @@
 package jsMath.twoD;
 
+import jsMath.exceptions.RootsException;
+
 public class Quadratic {
 	
 	public float a;
@@ -41,13 +43,13 @@ public class Quadratic {
 	}
 	//Find the roots of a quadratic equation if they exist, throws an exception if no roots exist, if only one root exists 
 	// result is stored in both array indicies
-	public float[] roots() throws Exception{
+	public float[] roots() throws RootsException{
 		float[] roots = new float[2];
 		
 		float det = (b*b - 4*a*c);
 		
 		if ((b*b - 4*a*c) < 0) {
-			throw new Exception("No roots");
+			throw new RootsException("No roots");
 		}
 		if ((b*b - 4*a*c) == 0) {
 			roots[0] = -b / 2*a;

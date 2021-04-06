@@ -1,14 +1,17 @@
 package jsMath.matrices;
+
+import jsMath.exceptions.MatrixIndexException;
+import jsMath.exceptions.MatrixInitException;
+
 //Represents 2x2 matrices with integer values.
 //There is not method to invert the matrix because integer matrices are not guaranteed invertible
 public class Matrix2i {
 	
-	public int[][] matrix = new int[2][2];
+	private int[][] matrix = new int[2][2];
 	
-	
-	public Matrix2i(int[] top, int[] bottom) throws Exception{
+	public Matrix2i(int[] top, int[] bottom) throws MatrixInitException{
 		
-		if (top.length != 2 || bottom.length != 2) throw new Exception("Input arrays must be of length 2");
+		if (top.length != 2 || bottom.length != 2) throw new MatrixInitException("Input arrays must be of length 2");
 		
 		this.matrix[0] = top;
 		this.matrix[1] = bottom;
@@ -21,11 +24,12 @@ public class Matrix2i {
 		this.matrix = matrix;
 	}
 	//get the entry x,y
-	public int get(int x, int y) {
+	public int get(int x, int y) throws MatrixIndexException {
+		if (x >= 2|| y >= 2) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
 	
-	public static Matrix2i constMult(int c, Matrix2i m) throws Exception {
+	public static Matrix2i constMult(int c, Matrix2i m) throws MatrixInitException, MatrixIndexException {
 		
 		int[] top = new int[2];
 		int[] bot = new int[2];
@@ -41,7 +45,6 @@ public class Matrix2i {
 	}
 	//returns the sum of one of the rows
 	public int rowSum(int x) {
-		assert (x == 2);
 		
 		int sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -53,9 +56,8 @@ public class Matrix2i {
 	}
 	
 	//returns the sum of one of the columns
-	public int colSum(int x) {
-		assert(x == 2);
-		
+	public int colSum(int x) throws MatrixIndexException {
+
 		int sum = 0;
 		for(int i = 0; i < 2; i++) {
 			sum += get(i,x);
@@ -65,7 +67,7 @@ public class Matrix2i {
 		
 	}
 	
-	public static Matrix2i multiply(Matrix2i m1, Matrix2i m2) {
+	public static Matrix2i multiply(Matrix2i m1, Matrix2i m2) throws MatrixIndexException {
 		
 		int[][] mat = new int[2][2];
 		
@@ -95,7 +97,7 @@ public class Matrix2i {
 		String ret = "";
 		for(int i = 0; i < 2; i++) {
 			for(int j = 0; j < 2; j++) {
-				ret += Float.toString(matrix[i][j]) + ",";
+				ret += matrix[i][j] + ",";
 			}
 			ret += "\n";
 		}
