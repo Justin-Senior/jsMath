@@ -49,7 +49,7 @@ public class Quadratic {
 		float det = (b*b - 4*a*c);
 		
 		if ((b*b - 4*a*c) < 0) {
-			throw new RootsException("No roots");
+			throw new RootsException("No real roots");
 		}
 		if ((b*b - 4*a*c) == 0) {
 			roots[0] = -b / 2*a;

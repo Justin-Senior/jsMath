@@ -2,6 +2,8 @@ package jsMath.matrices;
 
 import jsMath.exceptions.MatrixIndexException;
 import jsMath.exceptions.MatrixInitException;
+import jsMath.exceptions.MatrixNoInverseException;
+import jsMath.exceptions.RootsException;
 import jsMath.twoD.Quadratic;
 
 //Represents 2x2 matrices with float values.
@@ -10,7 +12,7 @@ public class Matrix2f {
 	
 	private float[][] matrix = new float[2][2];
 	
-	public Matrix2f(float[] top, float[] bottom) throws MatrixInitException{
+	public Matrix2f(float[] top, float[] bottom) {
 		
 		if (top.length != 2 || bottom.length != 2) throw new MatrixInitException("Input arrays must be of length 2");
 		
@@ -34,12 +36,12 @@ public class Matrix2f {
 	}
 	
 	//get the entry x,y
-	public float get(int x, int y) throws MatrixIndexException {
+	public float get(int x, int y) {
 		if (x >= 2 || y >= 2) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
 	//Multiplies matrix by a constant and returns a new matrix
-	public static Matrix2f constMult(float c, Matrix2f m) throws MatrixInitException, MatrixIndexException {
+	public static Matrix2f constMult(float c, Matrix2f m) {
 		
 		float[] top = new float[2];
 		float[] bot = new float[2];
@@ -66,7 +68,7 @@ public class Matrix2f {
 	}
 	
 	//returns the sum of one of the columns
-	public float colSum(int x) throws MatrixIndexException {
+	public float colSum(int x) {
 
 		float sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -77,7 +79,7 @@ public class Matrix2f {
 		
 	}
 	
-	public static Matrix2f multiply(Matrix2f m1, Matrix2f m2) throws MatrixIndexException {
+	public static Matrix2f multiply(Matrix2f m1, Matrix2f m2){
 		
 		float[][] mat = new float[2][2];
 		
@@ -102,11 +104,11 @@ public class Matrix2f {
 		
 	}
 	
-	public Matrix2f inverse() throws Exception{
+	public Matrix2f inverse() throws MatrixNoInverseException {
 		float[][] mat = new float[2][2];
 		
 		float det = this.determinant();
-		if (det == 0) throw new Exception("Not invertable, determinant is 0");
+		if (det == 0) throw new MatrixNoInverseException("Not invertable, determinant is 0");
 		
 		mat[0][0] = matrix[1][1]/det;
 		mat[0][1] = -matrix[0][1]/det;
@@ -118,7 +120,7 @@ public class Matrix2f {
 		
 	}
 	
-	public boolean approxEqual(Matrix2f m2, double tol) throws MatrixIndexException {
+	public boolean approxEqual(Matrix2f m2, double tol){
 		for(int i = 0; i < 2; i ++) {
 			for(int j = 0; j < 2; j ++) {
 				if(Math.abs(this.get(i, j)- m2.get(i, j)) > tol) return false; 
@@ -127,7 +129,7 @@ public class Matrix2f {
 		return true;
 	}
 	
-	public float[] eigenvalues() throws Exception {
+	public float[] eigenvalues() throws RootsException {
 		float x = matrix[0][0];
 		float y = matrix[1][1];
 		float i = matrix[0][1];

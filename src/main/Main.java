@@ -35,8 +35,8 @@ public class Main {
 		assert (Matrix2f.multiply(m2, m3).approxEqual(Matrix2f.id(), 0.001));
 		assert (Matrix2f.multiply(m3, m2).approxEqual(Matrix2f.id(), 0.001));
 		
-		assert (Matrix3f.multiply(m1, m4).approxEqual(Matrix3f.id(), 0.001));
-		assert (Matrix3f.multiply(m4, m1).approxEqual(Matrix3f.id(), 0.001));
+		assert (Matrix3f.multiply(m1, m4).approxEqual(Matrix3f.id, 0.001));
+		assert (Matrix3f.multiply(m4, m1).approxEqual(Matrix3f.id, 0.001));
 		
 		Cubic c = new Cubic(1, -3, 1, 1);
 		

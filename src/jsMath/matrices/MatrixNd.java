@@ -88,7 +88,7 @@ public class MatrixNd {
 		
 	}
 	
-	public MatrixNd transpose() throws MatrixIndexException, MatrixInitException{
+	public MatrixNd transpose() {
 		
 		double[][] trans = new double[len][len];
 		
@@ -102,7 +102,7 @@ public class MatrixNd {
 		
 	}
 	
-	public boolean approxEqual(MatrixNd m2, double tol) throws MatrixIndexException, MatrixSizeException{
+	public boolean approxEqual(MatrixNd m2, double tol) {
 		
 		if (len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
 		

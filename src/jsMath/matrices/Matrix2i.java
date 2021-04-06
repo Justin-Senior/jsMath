@@ -9,7 +9,7 @@ public class Matrix2i {
 	
 	private int[][] matrix = new int[2][2];
 	
-	public Matrix2i(int[] top, int[] bottom) throws MatrixInitException{
+	public Matrix2i(int[] top, int[] bottom) {
 		
 		if (top.length != 2 || bottom.length != 2) throw new MatrixInitException("Input arrays must be of length 2");
 		
@@ -24,12 +24,12 @@ public class Matrix2i {
 		this.matrix = matrix;
 	}
 	//get the entry x,y
-	public int get(int x, int y) throws MatrixIndexException {
+	public int get(int x, int y){
 		if (x >= 2|| y >= 2) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
 	
-	public static Matrix2i constMult(int c, Matrix2i m) throws MatrixInitException, MatrixIndexException {
+	public static Matrix2i constMult(int c, Matrix2i m) {
 		
 		int[] top = new int[2];
 		int[] bot = new int[2];
@@ -56,7 +56,7 @@ public class Matrix2i {
 	}
 	
 	//returns the sum of one of the columns
-	public int colSum(int x) throws MatrixIndexException {
+	public int colSum(int x) {
 
 		int sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -67,7 +67,7 @@ public class Matrix2i {
 		
 	}
 	
-	public static Matrix2i multiply(Matrix2i m1, Matrix2i m2) throws MatrixIndexException {
+	public static Matrix2i multiply(Matrix2i m1, Matrix2i m2) {
 		
 		int[][] mat = new int[2][2];
 		

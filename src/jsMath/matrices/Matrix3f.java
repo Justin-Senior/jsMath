@@ -2,6 +2,7 @@ package jsMath.matrices;
 
 import jsMath.exceptions.MatrixIndexException;
 import jsMath.exceptions.MatrixInitException;
+import jsMath.exceptions.MatrixNoInverseException;
 import jsMath.twoD.Cubic;
 
 //Represents 3x3 matrices with float values.
@@ -9,7 +10,9 @@ public class Matrix3f{
 	
 	private float[][] matrix = new float[3][3];
 	
-	public Matrix3f(float[] top, float [] mid, float[] bottom) throws MatrixInitException{
+	public static final Matrix3f id = id();
+	
+	public Matrix3f(float[] top, float [] mid, float[] bottom) {
 		
 		if (top.length != 3 || bottom.length != 3) throw new MatrixInitException("Input arrays must be of length 3");
 		
@@ -19,26 +22,32 @@ public class Matrix3f{
 		
 	}
 	
-	public Matrix3f(float[][] matrix) throws MatrixInitException {
+	public Matrix3f(float[][] matrix) {
 		
 		if (matrix[0].length != 3 || matrix[1].length != 3 || matrix[2].length != 3) throw new MatrixInitException("Matrix array is not 3x3");
 		
 		this.matrix = matrix;
 	}
-	// The identitry matrix
-	public static Matrix3f id() throws MatrixInitException {
+	// The identity matrix
+	private static Matrix3f id() {
+		Matrix3f id;
 		float[][] idf = {{1,0,0},{0,1,0},{0,0,1}};
-		Matrix3f id = new Matrix3f(idf);
+		try {
+			id = new Matrix3f(idf);
+			}
+		catch (MatrixInitException e) {
+			id = null;
+		}
 		return id;
 	}
 	
 	//get the entry x,y
-	public float get(int x, int y) throws MatrixIndexException{
+	public float get(int x, int y){
 		if (x >= 3 || y >= 3) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
 	//Multiplies the matrix by a constant and returns a new matrix
-	public static Matrix3f constMult(float c, Matrix3f m) throws Exception {
+	public static Matrix3f constMult(float c, Matrix3f m) {
 		
 		float[] top = new float[3];
 		float[] mid = new float[3];
@@ -67,7 +76,7 @@ public class Matrix3f{
 	}
 	
 	//returns the sum of one of the columns
-	public float colSum(int x) throws MatrixIndexException{
+	public float colSum(int x){
 		
 		float sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -77,7 +86,7 @@ public class Matrix3f{
 		return sum;
 		
 	}
-	public static Matrix3f multiply(Matrix3f m1, Matrix3f m2) throws MatrixIndexException, MatrixInitException{
+	public static Matrix3f multiply(Matrix3f m1, Matrix3f m2) {
 		
 		float[][] mat = new float[3][3];
 		
@@ -94,7 +103,7 @@ public class Matrix3f{
 		
 	}
 	//Compute the transpose of a matrix
-	public Matrix3f transpose() throws MatrixIndexException, MatrixInitException{
+	public Matrix3f transpose() {
 		
 		float[][] trans = new float[3][3];
 		
@@ -146,13 +155,15 @@ public class Matrix3f{
 		
 	}
 	
-	public Matrix3f inverse() throws Exception{
+	public Matrix3f inverse() throws MatrixNoInverseException{
 		float[][] minors = new float[3][3];
 		
 		int cnt = 0;
 		int fact = 1;
 		
 		float det = this.determinant();
+		
+		if (det == 0) throw new MatrixNoInverseException("Matrix is not invertible");
 		
 		for(int i = 0; i < 3; i++) {
 			for (int j= 0; j < 3; j++){
@@ -171,7 +182,7 @@ public class Matrix3f{
 	}
 	
 	
-	public boolean approxEqual(Matrix3f m2, double tol) throws MatrixIndexException{
+	public boolean approxEqual(Matrix3f m2, double tol) {
 		for(int i = 0; i < 3; i ++) {
 			for(int j = 0; j < 3; j ++) {
 				if(Math.abs(this.get(i, j)- m2.get(i, j)) > tol) return false; 
