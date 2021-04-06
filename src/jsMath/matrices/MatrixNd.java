@@ -2,6 +2,7 @@ package jsMath.matrices;
 
 import jsMath.exceptions.MatrixIndexException;
 import jsMath.exceptions.MatrixInitException;
+import jsMath.exceptions.MatrixNoInverseException;
 import jsMath.exceptions.MatrixSizeException;
 
 public class MatrixNd {
@@ -25,13 +26,25 @@ public class MatrixNd {
 		len = m.length;
 	}
 	
-	public double get(int x, int y) throws MatrixIndexException {
+	public double get(int x, int y) {
 		if (x >= len || y >= len) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
+	// n x n Identity matrix
+	public static MatrixNd id(int n) {
+		
+		double[][] idd  = new double[n][n];
+		
+		for(int i = 0; i < n; i++) {
+			idd[i][i] = 1;
+		}
+		return (new MatrixNd(idd));
+		
+		
+	}
 	
-	
-	public static MatrixNd constMult(float c, MatrixNd m) throws Exception {
+	// Multiply a matrix by a constant
+	public static MatrixNd constMult(double c, MatrixNd m) {
 		
 		double[][] entries = new double[m.len][m.len];
 		
@@ -57,7 +70,7 @@ public class MatrixNd {
 	}
 
 	//returns the sum of one of the columns
-	public float colSum(int x) throws MatrixIndexException{
+	public float colSum(int x) {
 		
 		float sum = 0;
 		for(int i = 0; i < 2; i++) {
@@ -67,8 +80,8 @@ public class MatrixNd {
 		return sum;
 		
 	}
-	
-	public static MatrixNd multiply(MatrixNd m1, MatrixNd m2) throws MatrixIndexException, MatrixSizeException, MatrixInitException{
+	// Multiply a matrix by another matrix
+	public static MatrixNd multiply(MatrixNd m1, MatrixNd m2) {
 		
 		if (m1.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
 		int len = m1.len;
@@ -87,13 +100,13 @@ public class MatrixNd {
 		return m3;
 		
 	}
-	
+	// returns the transpose of a matrix
 	public MatrixNd transpose() {
 		
 		double[][] trans = new double[len][len];
 		
 		for(int i = 0; i < len; i++) {
-			for (int j=0; j< 3; j++) {
+			for (int j=0; j< len; j++) {
 				trans[j][i] = this.get(i, j);
 			}
 		}
@@ -101,7 +114,7 @@ public class MatrixNd {
 		return (new MatrixNd(trans));
 		
 	}
-	
+	// Determines if 2 matrices are approximately equal within a given tolerance
 	public boolean approxEqual(MatrixNd m2, double tol) {
 		
 		if (len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
@@ -113,12 +126,78 @@ public class MatrixNd {
 		}
 		return true;
 	}
+	// return a submatrix by excluding row x and column y
+	public MatrixNd subMatrix(int x, int y) {
+		
+		int row = 0;
+		int col = 0;
+		
+		double[][] mat = new double[len-1][len-1];
+		for(int i = 0; i < len; i++) {
+			for(int j = 0; j < len; j++) {
+				if (i != x && j != y) {
+					mat[row][col] = matrix[i][j];
+					col += 1;
+				}
+			}
+			col = 0;
+			if(i != x) row += 1; 
+		}
+		
+		MatrixNd ret = new MatrixNd(mat);
+		return ret;
+		
+	}
+	// Find the determinant of an nxn matrix
+	public double determinant() {
+		
+		if (len == 2) {
+			return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
+		}
+			
+		double det = 0;
+			
+		for(int i = 0; i < len; i++) {
+			MatrixNd sub = subMatrix(0,i);
+			if (i % 2 == 0) det += matrix[0][i] * sub.determinant();
+			if (i % 2 == 1) det -= matrix[0][i] * sub.determinant();
+		}
+			
+		return det;
+	}
+	// Finds the inverse of a matrix via the matrix of minors
+	public MatrixNd inverse() throws MatrixNoInverseException{
+		double[][] minors = new double[len][len];
+		
+		int cnt = 0;
+		int fact = 1;
+		
+		double det = determinant();
+		
+		if (det == 0) throw new MatrixNoInverseException("Matrix is not invertible");
+		
+		for(int i = 0; i < len; i++) {
+			for (int j= 0; j < len; j++){
+				if (cnt % 2 == 0) fact = 1; else fact = -1;
+				minors[i][j] = this.subMatrix(i, j).determinant()*fact;
+				cnt += 1;
+			}
+			cnt += 1;
+		}
+		
+		MatrixNd cofact = new MatrixNd(minors);
+		MatrixNd adj = cofact.transpose();
+		
+		MatrixNd ret = MatrixNd.constMult(1/det, adj);
+		return ret;
+		
+	}
 	
 	@Override
 	public String toString() {
 		String ret = "";
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
+		for(int i = 0; i < len; i++) {
+			for(int j = 0; j < len; j++) {
 				ret += matrix[i][j] + ",";
 			}
 			ret += "\n";

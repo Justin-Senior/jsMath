@@ -10,8 +10,6 @@ public class Matrix3f{
 	
 	private float[][] matrix = new float[3][3];
 	
-	public static final Matrix3f id = id();
-	
 	public Matrix3f(float[] top, float [] mid, float[] bottom) {
 		
 		if (top.length != 3 || bottom.length != 3) throw new MatrixInitException("Input arrays must be of length 3");
@@ -29,15 +27,11 @@ public class Matrix3f{
 		this.matrix = matrix;
 	}
 	// The identity matrix
-	private static Matrix3f id() {
+	public static Matrix3f id() {
 		Matrix3f id;
 		float[][] idf = {{1,0,0},{0,1,0},{0,0,1}};
-		try {
-			id = new Matrix3f(idf);
-			}
-		catch (MatrixInitException e) {
-			id = null;
-		}
+		id = new Matrix3f(idf);
+
 		return id;
 	}
 	
@@ -167,7 +161,7 @@ public class Matrix3f{
 		
 		for(int i = 0; i < 3; i++) {
 			for (int j= 0; j < 3; j++){
-				if (cnt %2 == 0) fact = 1; else fact = -1;
+				if (cnt % 2 == 0) fact = 1; else fact = -1;
 				minors[i][j] = this.subMatrix(i, j).determinant()* fact;
 				cnt += 1;
 			}
