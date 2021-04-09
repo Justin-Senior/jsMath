@@ -24,6 +24,8 @@ public class Main {
 		float [] mid = {1,2,3};
 		float [] bot = {3,8,5};
 		
+		float[][] m8f = {{1,0,1},{1,0,1},{1,0,1}};
+		
 		float[] top1 = {3,8};
 		float[] bot1 = {8,9};
 		
@@ -31,6 +33,14 @@ public class Main {
 		
 		Matrix3f m1 = new Matrix3f(top, mid, bot);
 		Matrix3f m4 = m1.inverse();
+		
+		Matrix3f m8 = new Matrix3f(m8f);
+		
+		Matrix3f m7 = m8.gaussElim();
+		
+		System.out.print(m7.toString());
+		
+		
 		
 		Matrix2f m2 = new Matrix2f(top1, bot1);
 		Matrix2f m3 = m2.inverse();
@@ -43,11 +53,7 @@ public class Main {
 		
 		assert (Matrix3f.multiply(m1, m4).approxEqual(Matrix3f.id(), 0.001));
 		assert (Matrix3f.multiply(m4, m1).approxEqual(Matrix3f.id(), 0.001));
-		
-		Cubic c = new Cubic(1, -3, 1, 1);
-		
-		System.out.println(m5.inverse().toString());
-		
+
 		assert (MatrixNd.multiply(m5, m6).approxEqual(MatrixNd.id(4), 0.001));
 		assert (MatrixNd.multiply(m6, m5).approxEqual(MatrixNd.id(4), 0.001));
 	}

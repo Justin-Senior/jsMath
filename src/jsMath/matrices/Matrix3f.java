@@ -214,6 +214,71 @@ public class Matrix3f{
 		
 		return c.roots();
 	}
+	//Mulitply a row of the matrix by a constant
+	public Matrix3f rowMult(int x, float c) {
+		
+		float[][] ret = new float[3][3];
+		
+		for (int j = 0 ; j < 3 ; j ++ ) {
+			for(int k = 0; k < 3; k ++) {
+				ret[j][k] = get(j,k);
+			}
+		}
+		
+		for (int i = 0; i < 3; i ++) {
+			ret[x][i] *= c;
+		}
+		return new Matrix3f(ret);
+		
+	}
+	// Add a constant multiple of row y to row x
+	public Matrix3f rowOp(int x, int y, float c) {
+		
+		float[][] ret = new float[3][3];
+		
+		for (int j = 0 ; j < 3 ; j ++ ) {
+			for(int k = 0; k < 3; k ++) {
+				ret[j][k] = get(j,k);
+			}
+		}
+		
+		for (int i = 0; i < 3; i ++) {
+			ret[x][i] += get(y, i)*c;
+		}
+		return new Matrix3f(ret);
+		
+	}
+	
+	//Mulitply a row of the matrix by a constant
+	public Matrix3f colMult(int x, float c) {
+			
+		float[][] ret = new float[3][3];
+			
+		for (int j = 0 ; j < 3 ; j ++ ) {
+			for(int k = 0; k < 3; k ++) {
+				ret[j][k] = get(j,k);
+			}
+		}
+		
+		for (int i = 0; i < 3; i ++) {
+			ret[i][x] *= c;
+		}
+		return new Matrix3f(ret);
+			
+	}
+	
+	//Perform row operations on a matrix to make it upper triangular with ones on the diagonal
+	public Matrix3f gaussElim() {
+		
+		Matrix3f r1 = rowOp(1,0, -(this.get(1, 0)/this.get(0, 0))).rowOp(2, 0, -this.get(2, 0)/this.get(0, 0)); // Step 1
+		
+		Matrix3f r2 = r1.rowOp(2, 1, -r1.get(2, 1)/r1.get(1, 1)); // Step 2
+		
+		Matrix3f r3 = r2.rowMult(0, 1/r2.get(0,0)).rowMult(1, 1/r2.get(1,1)).rowMult(2, 1/r2.get(2, 2)); // Normalize diagonal
+		
+		return r3;
+
+	}
 	
 	@Override
 	public String toString() {
