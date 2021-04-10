@@ -55,6 +55,24 @@ public class Matrix2f {
 		return ret;
 		
 	}
+	
+	//generate a 2x2 matrix with random values
+	public static Matrix2f genRandomMatrix() {
+		
+		int max = 10;
+		int min = -10;
+		
+		float[][] mat = new float[2][2];
+		
+		for(int i = 0; i < 2; i++) {
+			for(int j  = 0; j < 2; j++) {
+				mat[i][j] = (float) (Math.random()*max + Math.random()*min); 
+			}
+		}
+		
+		return new Matrix2f(mat);
+	}
+	
 	//returns the sum of one of the rows
 	public float rowSum(int x) {
 		

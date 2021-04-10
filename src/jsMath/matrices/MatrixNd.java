@@ -213,6 +213,63 @@ public class MatrixNd {
 		return ret;
 		
 	}
+	// Add a constant multiple of row y to row x
+	private MatrixNd rowOp(int x, int y, double c) {
+		
+		double[][] ret = new double[len][len];
+				
+		for (int j = 0 ; j < len ; j ++ ) {
+			for(int k = 0; k < len; k ++) {
+				ret[j][k] = get(j,k);
+			}
+		}				
+		for (int i = 0; i < 3; i ++) {
+			ret[x][i] += get(y, i)*c;
+		}
+		
+		return new MatrixNd(ret);
+		
+	}
+	//Perform row operations on a matrix to make it upper triangular
+	public MatrixNd gaussElim() {
+		
+		MatrixNd m2 = new MatrixNd(matrix);
+		
+		for(int i = 0; i < len; i ++) {
+			for(int j = i + 1; j < len; j ++) {
+				m2 = m2.rowOp(j, i, -m2.get(j, i)/m2.get(i, i));
+			}
+		}
+		return m2;
+		
+	}
+	
+	public boolean isUpperTriangular() {
+		
+		for(int i = 0; i < len; i ++) {
+			for(int j = 0; j < len; j ++) {
+				if( i > j && Math.abs(get(i,j)) > 0.001) return false;
+			}
+		}
+		return true;
+	}
+	//generate an nxn matrix with random values
+	public static MatrixNd genRandomMatrix(int n) {
+		
+		int max = 10;
+		int min = -10;
+		
+		double[][] mat = new double[n][n];
+		
+		for(int i = 0; i < n; i++) {
+			for(int j  = 0; j < n; j++) {
+				mat[i][j] = Math.random()*max + Math.random()*min; 
+			}
+		}
+		
+		return new MatrixNd(mat);
+	}
+	
 	
 	@Override
 	public String toString() {

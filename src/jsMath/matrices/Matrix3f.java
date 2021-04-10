@@ -284,17 +284,42 @@ public class Matrix3f{
 			
 	}
 	
-	//Perform row operations on a matrix to make it upper triangular with ones on the diagonal
+	//Perform row operations on a matrix to make it upper triangular
 	public Matrix3f gaussElim() {
 		
 		Matrix3f r1 = rowOp(1,0, -(this.get(1, 0)/this.get(0, 0))).rowOp(2, 0, -this.get(2, 0)/this.get(0, 0)); // Step 1
 		
 		Matrix3f r2 = r1.rowOp(2, 1, -r1.get(2, 1)/r1.get(1, 1)); // Step 2
 		
-		Matrix3f r3 = r2.rowMult(0, 1/r2.get(0,0)).rowMult(1, 1/r2.get(1,1)).rowMult(2, 1/r2.get(2, 2)); // Normalize diagonal
-		
-		return r3;
+		return r2;
 
+	}
+	// Returns if the matrix is upper triangular (with some leniency for rounding error
+	public boolean isUpperTriangular() {
+		
+		for(int i = 0; i < 3; i ++) {
+			for(int j = 0; j < 3; j ++) {
+				if( i > j && Math.abs(get(i,j)) > 0.001) return false;
+			}
+		}
+		return true;
+	}
+	
+	//generate a 3x3 matrix with random values
+	public static Matrix3f genRandomMatrix() {
+		
+		int max = 10;
+		int min = -10;
+		
+		float[][] mat = new float[3][3];
+		
+		for(int i = 0; i < 3; i++) {
+			for(int j  = 0; j < 3; j++) {
+				mat[i][j] = (float) (Math.random()*max + Math.random()*min); 
+			}
+		}
+		
+		return new Matrix3f(mat);
 	}
 	
 	@Override

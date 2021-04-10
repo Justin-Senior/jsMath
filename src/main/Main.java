@@ -20,32 +20,18 @@ public class Main {
 	//Simple testing of functions
 	public static void main(String[] args) throws Exception {
 
-		float [] top = {5,8,3};
-		float [] mid = {1,2,3};
-		float [] bot = {3,8,5};
 		
-		float[][] m8f = {{1,0,1},{1,0,1},{1,0,1}};
-		
-		float[] top1 = {3,8};
-		float[] bot1 = {8,9};
-		
-		double[][] n4 = {{3,2,0,1},{4,0,1,2},{3,0,2,1},{9,2,3,1}};
-		
-		Matrix3f m1 = new Matrix3f(top, mid, bot);
+		Matrix3f m1 = Matrix3f.genRandomMatrix();
 		Matrix3f m4 = m1.inverse();
-		
-		Matrix3f m8 = new Matrix3f(m8f);
-		
-		Matrix3f m7 = m8.gaussElim();
-		
-		System.out.print(m7.toString());
-		
-		
-		
-		Matrix2f m2 = new Matrix2f(top1, bot1);
+
+		Matrix3f m8 = m1.gaussElim();
+	
+		Matrix2f m2 = Matrix2f.genRandomMatrix();
 		Matrix2f m3 = m2.inverse();
 		
-		MatrixNd m5 = new MatrixNd(n4);
+		Matrix3f m9 = m1.gaussElim();
+		
+		MatrixNd m5 = MatrixNd.genRandomMatrix(4);
 		MatrixNd m6 = m5.inverse();
 		
 		assert (Matrix2f.multiply(m2, m3).approxEqual(Matrix2f.id(), 0.001));
@@ -56,6 +42,18 @@ public class Main {
 
 		assert (MatrixNd.multiply(m5, m6).approxEqual(MatrixNd.id(4), 0.001));
 		assert (MatrixNd.multiply(m6, m5).approxEqual(MatrixNd.id(4), 0.001));
+		
+		assert(m2.multiply(m3).approxEqual(Matrix2f.id(), 0.001));
+		assert(m3.multiply(m2).approxEqual(Matrix2f.id(), 0.001));
+		
+		assert(m1.multiply(m4).approxEqual(Matrix3f.id(), 0.001));
+		assert(m4.multiply(m1).approxEqual(Matrix3f.id(), 0.001));
+		
+		assert(m2.multiply(m3).approxEqual(Matrix2f.multiply(m2, m3), 0.001));
+		assert(m3.multiply(m2).approxEqual(Matrix2f.id(), 0.001));
+		
+		assert(m8.isUpperTriangular());
+		assert(m9.isUpperTriangular());
 	}
 	
 }
