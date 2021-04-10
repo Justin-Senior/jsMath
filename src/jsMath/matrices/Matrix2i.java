@@ -83,6 +83,25 @@ public class Matrix2i {
 		return m3;
 		
 	}
+	
+	public  Matrix2i multiply(Matrix2i m2) {
+		
+		int[][] mat = new int[2][2];
+		
+		for(int i = 0; i < 2; i ++) {
+			for (int j = 0; j < 2; j++) {
+				for (int k = 0; k < 2; k++) {
+					mat[i][j] += this.get(i, k) * m2.get(k,j);
+				}
+			}
+		}
+		
+		Matrix2i m3 = new Matrix2i(mat);
+		return m3;
+		
+	}
+	
+	
 	//return the determinant of a matrix 
 	public int determinant() {
 		

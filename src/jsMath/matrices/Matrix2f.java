@@ -95,6 +95,25 @@ public class Matrix2f {
 		return m3;
 		
 	}
+	
+
+	public Matrix2f multiply(Matrix2f m2){
+		
+		float[][] mat = new float[2][2];
+		
+		for(int i = 0; i < 2; i ++) {
+			for (int j = 0; j < 2; j++) {
+				for (int k = 0; k < 2; k++) {
+					mat[i][j] += this.get(i, k) * m2.get(k,j);
+				}
+			}
+		}
+		
+		Matrix2f m3 = new Matrix2f(mat);
+		return m3;
+		
+	}
+	
 	//return the determinant of a matrix 
 	public float determinant() {
 		

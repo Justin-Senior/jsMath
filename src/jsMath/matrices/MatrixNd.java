@@ -100,6 +100,27 @@ public class MatrixNd {
 		return m3;
 		
 	}
+	
+	public MatrixNd multiply(MatrixNd m2) {
+		
+		if (this.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
+		int len = this.len;
+		
+		double[][] mat = new double[len][len];
+		
+		for(int i = 0; i < len; i ++) {
+			for (int j = 0; j < len; j++) {
+				for (int k = 0; k < len; k++) {
+					mat[i][j] += this.get(i, k) * m2.get(k,j);
+				}
+			}
+		}
+		
+		MatrixNd m3 = new MatrixNd(mat);
+		return m3;
+		
+	}
+	
 	// returns the transpose of a matrix
 	public MatrixNd transpose() {
 		

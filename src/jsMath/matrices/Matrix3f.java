@@ -96,6 +96,23 @@ public class Matrix3f{
 		return m3;
 		
 	}
+	
+	public Matrix3f multiply(Matrix3f m2) {
+		
+		float[][] mat = new float[3][3];
+		
+		for(int i = 0; i < 3; i ++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					mat[i][j] += this.get(i, k) * m2.get(k,j);
+				}
+			}
+		}
+		
+		Matrix3f m3 = new Matrix3f(mat);
+		return m3;
+		
+	}
 	//Compute the transpose of a matrix
 	public Matrix3f transpose() {
 		
@@ -215,7 +232,7 @@ public class Matrix3f{
 		return c.roots();
 	}
 	//Mulitply a row of the matrix by a constant
-	public Matrix3f rowMult(int x, float c) {
+	private Matrix3f rowMult(int x, float c) {
 		
 		float[][] ret = new float[3][3];
 		
@@ -232,7 +249,7 @@ public class Matrix3f{
 		
 	}
 	// Add a constant multiple of row y to row x
-	public Matrix3f rowOp(int x, int y, float c) {
+	private Matrix3f rowOp(int x, int y, float c) {
 		
 		float[][] ret = new float[3][3];
 		
@@ -250,7 +267,7 @@ public class Matrix3f{
 	}
 	
 	//Mulitply a row of the matrix by a constant
-	public Matrix3f colMult(int x, float c) {
+	private Matrix3f colMult(int x, float c) {
 			
 		float[][] ret = new float[3][3];
 			
