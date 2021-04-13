@@ -57,6 +57,25 @@ public class Matrix3f{
 		return ret;
 		
 	}
+	
+	//Multiplies the matrix by a constant and returns a new matrix
+	public Matrix3f constMult(float c) {
+			
+		float[] top = new float[3];
+		float[] mid = new float[3];
+		float[] bot = new float[3];
+			
+		for(int i = 0; i < 3; i++) {
+			top[i] = get(0,i)*c;
+			mid[i] = get(1,i)*c;
+			bot[i] = get(2,i)*c;
+		}
+			
+		Matrix3f ret = new Matrix3f(top, mid, bot);
+		return ret;
+			
+		}
+	
 	//returns the sum of one of the rows
 	public float rowSum(int x) {
 		
@@ -294,7 +313,7 @@ public class Matrix3f{
 		return r2;
 
 	}
-	// Returns if the matrix is upper triangular (with some leniency for rounding error
+	// Returns if the matrix is upper triangular (with some leniency for rounding errors)
 	public boolean isUpperTriangular() {
 		
 		for(int i = 0; i < 3; i ++) {

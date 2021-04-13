@@ -2,9 +2,11 @@ package main;
 
 import java.math.BigInteger;
 
+import jsMath.complex.Complex;
 import jsMath.functions.Function1;
 import jsMath.matrices.Matrix2f;
 import jsMath.matrices.Matrix2i;
+import jsMath.matrices.Matrix3c;
 import jsMath.matrices.Matrix3f;
 import jsMath.matrices.MatrixNd;
 import jsMath.probability.Probability;
@@ -19,7 +21,19 @@ public class Main {
 
 	//Simple testing of functions
 	public static void main(String[] args) throws Exception {
-
+		
+		Complex c = new Complex(1,2);
+		Complex c1 = new Complex(3,1);
+		Complex c2= new Complex(5,2);
+		Complex c3 = new Complex(1,1);
+		Complex c4 = new Complex(1,3);
+		Complex c5 = new Complex(4,1);
+		Complex c6 = new Complex(3,2);
+		Complex c7 = new Complex(1,2);
+		Complex c8 = new Complex(1,4);
+		
+		Complex[][] cm = {{c,c1,c2},{c3,c4,c5},{c6,c7,c8}};
+		
 		
 		Matrix3f m1 = Matrix3f.genRandomMatrix();
 		Matrix3f m4 = m1.inverse();
@@ -33,6 +47,8 @@ public class Main {
 		
 		MatrixNd m5 = MatrixNd.genRandomMatrix(4);
 		MatrixNd m6 = m5.inverse();
+		
+		Matrix3c m10 = new Matrix3c(cm);
 		
 		assert (Matrix2f.multiply(m2, m3).approxEqual(Matrix2f.id(), 0.001));
 		assert (Matrix2f.multiply(m3, m2).approxEqual(Matrix2f.id(), 0.001));
@@ -54,6 +70,8 @@ public class Main {
 		
 		assert(m8.isUpperTriangular());
 		assert(m9.isUpperTriangular());
+		
+		System.out.println(m10.multiply(m10).toString());
 	}
 	
 }
