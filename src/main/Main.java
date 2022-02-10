@@ -2,7 +2,6 @@ package main;
 
 import java.math.BigInteger;
 
-import jsMath.complex.Complex;
 import jsMath.functions.Function1;
 import jsMath.matrices.Matrix2f;
 import jsMath.matrices.Matrix2i;
@@ -15,6 +14,7 @@ import jsMath.twoD.LinearEq;
 import jsMath.twoD.Point2D;
 import jsMath.twoD.Quadratic;
 import jsMath.twoD.Vector2D;
+import jsMath.types.Complex;
 
 
 public class Main {
@@ -71,7 +71,7 @@ public class Main {
 		assert(m8.isUpperTriangular());
 		assert(m9.isUpperTriangular());
 		
-		System.out.println(m10.multiply(m10).toString());
+		System.out.println(Probability.binomial(1/354, 4, 3));
 	}
 	
 }

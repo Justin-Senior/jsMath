@@ -1,4 +1,4 @@
-package jsMath.complex;
+package jsMath.types;
 
 // A  class representing complex numbers of the form x + i*y
 public class Complex {

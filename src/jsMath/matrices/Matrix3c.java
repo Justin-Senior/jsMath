@@ -1,8 +1,8 @@
 package jsMath.matrices;
 
-import jsMath.complex.*;
 import jsMath.exceptions.MatrixIndexException;
 import jsMath.exceptions.MatrixInitException;
+import jsMath.types.*;
 
 public class Matrix3c {
 
