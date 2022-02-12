@@ -1,4 +1,4 @@
-package jsMath.twoD;
+package jsMath.vectors;
 
 import java.lang.Math;
 

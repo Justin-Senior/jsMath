@@ -13,8 +13,8 @@ import jsMath.twoD.Cubic;
 import jsMath.twoD.LinearEq;
 import jsMath.twoD.Point2D;
 import jsMath.twoD.Quadratic;
-import jsMath.twoD.Vector2D;
 import jsMath.types.Complex;
+import jsMath.vectors.VectorND;
 
 
 public class Main {
@@ -72,6 +72,18 @@ public class Main {
 		assert(m9.isUpperTriangular());
 		
 		System.out.println(Probability.binomial(1/354, 4, 3));
+
+	
+		double[] vec = {0,0,0};
+		VectorND v1 = new VectorND(vec);
+		VectorND v2 = VectorND.normalize(v1);
+		
+		assert v2.length() == 1;
+		
+		System.out.println(v2.toString());
+		
+		
+	
 	}
 	
 }
