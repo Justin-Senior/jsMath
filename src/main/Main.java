@@ -71,17 +71,23 @@ public class Main {
 		assert(m8.isUpperTriangular());
 		assert(m9.isUpperTriangular());
 		
-		System.out.println(Probability.binomial(1/354, 4, 3));
+		System.out.println(Probability.binomial(1/2, 4, 3));
 
 	
-		double[] vec = {0,0,0};
-		VectorND v1 = new VectorND(vec);
-		VectorND v2 = VectorND.normalize(v1);
+		double[] vec1 = {1,2,1};
+		double[] vec2 = {2,9,0};
+		double[] vec3 = {3,3,4};
+		VectorND v1 = new VectorND(vec1);
+		VectorND v2 = new VectorND(vec2);
+		VectorND v3 = new VectorND(vec3);
 		
-		assert v2.length() == 1;
+		System.out.println(v1.size);
+		
+		VectorND[] vl = {v1, v2, v3};
+		
+		assert (VectorND.isBasis(vl));
 		
 		System.out.println(v2.toString());
-		
 		
 	
 	}

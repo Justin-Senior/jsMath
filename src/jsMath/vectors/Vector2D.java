@@ -73,7 +73,7 @@ public class Vector2D {
 		}
 		return theta;
 	}
-	//Create a vector perpindicular to the current vector
+	//Create a vector perpendicular to the current vector
 	public static Vector2D perp(Vector2D v1) {
 		Vector2D v2 = new Vector2D(-v1.y, v1.x);
 		return v2;
