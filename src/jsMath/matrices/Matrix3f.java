@@ -40,23 +40,6 @@ public class Matrix3f{
 		if (x >= 3 || y >= 3) throw new MatrixIndexException("Index Out of Bounds");
 		return matrix[x][y];
 	}
-	//Multiplies the matrix by a constant and returns a new matrix
-	public static Matrix3f constMult(float c, Matrix3f m) {
-		
-		float[] top = new float[3];
-		float[] mid = new float[3];
-		float[] bot = new float[3];
-		
-		for(int i = 0; i < 3; i++) {
-			top[i] = m.get(0,i)*c;
-			mid[i] = m.get(1,i)*c;
-			bot[i] = m.get(2,i)*c;
-		}
-		
-		Matrix3f ret = new Matrix3f(top, mid, bot);
-		return ret;
-		
-	}
 	
 	//Multiplies the matrix by a constant and returns a new matrix
 	public Matrix3f constMult(float c) {
@@ -99,23 +82,7 @@ public class Matrix3f{
 		return sum;
 		
 	}
-	public static Matrix3f multiply(Matrix3f m1, Matrix3f m2) {
-		
-		float[][] mat = new float[3][3];
-		
-		for(int i = 0; i < 3; i ++) {
-			for (int j = 0; j < 3; j++) {
-				for (int k = 0; k < 3; k++) {
-					mat[i][j] += m1.get(i, k) * m2.get(k,j);
-				}
-			}
-		}
-		
-		Matrix3f m3 = new Matrix3f(mat);
-		return m3;
-		
-	}
-	
+	//Mutiply 2 matricies
 	public Matrix3f multiply(Matrix3f m2) {
 		
 		float[][] mat = new float[3][3];
@@ -206,7 +173,7 @@ public class Matrix3f{
 		Matrix3f cofact = new Matrix3f(minors);
 		Matrix3f adj = cofact.transpose();
 		
-		Matrix3f ret = Matrix3f.constMult(1/det, adj);
+		Matrix3f ret = adj.constMult(1/det);
 		return ret;
 		
 	}

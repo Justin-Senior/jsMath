@@ -49,23 +49,16 @@ public class Main {
 		MatrixNd m6 = m5.inverse();
 		
 		Matrix3c m10 = new Matrix3c(cm);
-		
-		assert (Matrix2f.multiply(m2, m3).approxEqual(Matrix2f.id(), 0.001));
-		assert (Matrix2f.multiply(m3, m2).approxEqual(Matrix2f.id(), 0.001));
-		
-		assert (Matrix3f.multiply(m1, m4).approxEqual(Matrix3f.id(), 0.001));
-		assert (Matrix3f.multiply(m4, m1).approxEqual(Matrix3f.id(), 0.001));
 
-		assert (MatrixNd.multiply(m5, m6).approxEqual(MatrixNd.id(4), 0.001));
-		assert (MatrixNd.multiply(m6, m5).approxEqual(MatrixNd.id(4), 0.001));
+		assert (m5.multiply(m6).approxEqual(MatrixNd.id(4), 0.001));
+		assert (m6.multiply(m5).approxEqual(MatrixNd.id(4), 0.001));
 		
 		assert(m2.multiply(m3).approxEqual(Matrix2f.id(), 0.001));
 		assert(m3.multiply(m2).approxEqual(Matrix2f.id(), 0.001));
 		
 		assert(m1.multiply(m4).approxEqual(Matrix3f.id(), 0.001));
 		assert(m4.multiply(m1).approxEqual(Matrix3f.id(), 0.001));
-		
-		assert(m2.multiply(m3).approxEqual(Matrix2f.multiply(m2, m3), 0.001));
+
 		assert(m3.multiply(m2).approxEqual(Matrix2f.id(), 0.001));
 		
 		assert(m8.isUpperTriangular());
@@ -89,7 +82,7 @@ public class Main {
 		
 		assert (VectorND.isBasis(vl));
 		
-		ul = VectorND.gramSchmidt(vl);
+		ul = VectorND.gramSchmidt(vl, false);
 		
 		for(int i = 0; i < 3; i ++) {
 			System.out.println(ul[i].toString());

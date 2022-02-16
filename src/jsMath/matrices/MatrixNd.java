@@ -44,13 +44,13 @@ public class MatrixNd {
 	}
 	
 	// Multiply a matrix by a constant
-	public static MatrixNd constMult(double c, MatrixNd m) {
+	public MatrixNd constMult(double c) {
 		
-		double[][] entries = new double[m.len][m.len];
+		double[][] entries = new double[this.len][this.len];
 		
-		for(int i = 0; i < m.len; i++) {
-			for(int j = 0; j < m.len; j++) {
-				entries[i][j] = m.get(i, j) * c;
+		for(int i = 0; i < this.len; i++) {
+			for(int j = 0; j < this.len; j++) {
+				entries[i][j] = this.get(i, j) * c;
 			}
 		}
 		
@@ -80,27 +80,7 @@ public class MatrixNd {
 		return sum;
 		
 	}
-	// Multiply a matrix by another matrix
-	public static MatrixNd multiply(MatrixNd m1, MatrixNd m2) {
-		
-		if (m1.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
-		int len = m1.len;
-		
-		double[][] mat = new double[len][len];
-		
-		for(int i = 0; i < len; i ++) {
-			for (int j = 0; j < len; j++) {
-				for (int k = 0; k < len; k++) {
-					mat[i][j] += m1.get(i, k) * m2.get(k,j);
-				}
-			}
-		}
-		
-		MatrixNd m3 = new MatrixNd(mat);
-		return m3;
-		
-	}
-	
+	// Multiply a matrix by another matrix	
 	public MatrixNd multiply(MatrixNd m2) {
 		
 		if (this.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
@@ -209,7 +189,7 @@ public class MatrixNd {
 		MatrixNd cofact = new MatrixNd(minors);
 		MatrixNd adj = cofact.transpose();
 		
-		MatrixNd ret = MatrixNd.constMult(1/det, adj);
+		MatrixNd ret = adj.constMult(1/det);
 		return ret;
 		
 	}

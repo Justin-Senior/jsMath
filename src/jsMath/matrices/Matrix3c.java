@@ -39,20 +39,6 @@ public class Matrix3c {
 		return matrix[i][j];
 	}
 	
-	public static Matrix3c constMult(Complex c, Matrix3c m) {
-		
-		Complex[][] mat = new Complex[3][3];
-		
-		for (int i = 0; i < 3; i ++) {
-			for (int j = 0; j < 3; j++) {
-				mat[i][j] = m.get(i,j).multiply(c);
-			}
-		}
-		
-		return (new Matrix3c(mat));
-	}
-	
-	
 	public Matrix3c constMult(Complex c) {
 		
 		Complex[][] mat = new Complex[3][3];

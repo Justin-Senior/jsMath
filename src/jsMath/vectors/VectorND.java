@@ -24,29 +24,29 @@ public class VectorND {
 		return vector[x];
 	}
 	
-	public static VectorND addVectors(VectorND v1, VectorND v2) {
+	public VectorND addVector(VectorND v2) {
 		
 		double vec[] = new double[3]; 
 		VectorND v3 = new VectorND(vec);
 		
-		if (v1.size != v2.size) { throw new VectorSizeException("Vectors must be of same length!");}
+		if (this.size != v2.size) { throw new VectorSizeException("Vectors must be of same length!");}
 		
-		for (int i = 0; i < v1.size; i++) {
-			v3.setPos(i,v1.getPos(i) + v2.getPos(i));
+		for (int i = 0; i < this.size; i++) {
+			v3.setPos(i,this.getPos(i) + v2.getPos(i));
 		}
 		
 		return v3;
 		
 	}
 	
-	public static double dotProd(VectorND v1, VectorND v2) {
+	public double dotProd(VectorND v2) {
 		
 		double ret = 0;
 		
-		if (v1.size != v2.size) { throw new VectorSizeException("Vectors must be of same length!");}
+		if (this.size != v2.size) { throw new VectorSizeException("Vectors must be of same length!");}
 		
-		for (int i = 0;i < v1.size;i++) {
-			ret += v1.getPos(i) * v2.getPos(i);
+		for (int i = 0;i < this.size;i++) {
+			ret += this.getPos(i) * v2.getPos(i);
 		}
 		
 		return ret;
@@ -63,28 +63,28 @@ public class VectorND {
 		return (Math.sqrt(ret));
 	}
 	
-	public static VectorND scalarMult(double x, VectorND v) {
+	public VectorND scalarMult(double x) {
 		
-		double[] vec = new double[v.size];
+		double[] vec = new double[this.size];
 		VectorND v2 = new VectorND(vec);
 		
-		for (int i = 0;i < v.size; i ++) {
-			v2.setPos(i, v.getPos(i)*x);
+		for (int i = 0;i < this.size; i ++) {
+			v2.setPos(i, this.getPos(i)*x);
 		}
 		
 		return v2; 
 	}
 	
-	public static VectorND normalize(VectorND v1) {
+	public VectorND normalize() {
 		
-		double n = v1.length();
+		double n = this.length();
 		
-		VectorND v2 = scalarMult(1/n,v1);
+		VectorND v2 = this.scalarMult(1/n);
 		
 		return v2;
 		 
 	}
-	
+	// Determine if the given set of vectors is a basis
 	public static boolean isBasis(VectorND[] vl) {
 		
 		double[][] mat = new double[vl.length][vl.length];
@@ -104,7 +104,8 @@ public class VectorND {
 		return (ret.determinant() != 0);
 	}
 	
-	public static VectorND[] gramSchmidt(VectorND[] u) {
+	// Perform the Gram-Schmidt process on a basis. Optional boolean for if you want to normalize the vectors
+	public static VectorND[] gramSchmidt(VectorND[] u, boolean b) {
 		
 		if (!isBasis(u)) {throw new VectorBasisException("List of vectors must be a basis for the space");}
 		
@@ -115,13 +116,20 @@ public class VectorND {
 		for (int i = 1; i <u.length; i++) {
 			v[i] = u[i];
 			for (int j = 0; j < i; j ++) {
-				v[i] = addVectors(v[i],  scalarMult(-1 * (dotProd(u[i],v[j])/(dotProd(v[j],v[j]))), v[j])); 
+				v[i] = v[i].addVector(v[j].scalarMult(-1 * (u[i].dotProd(v[j])/(v[j].dotProd(v[j]))))); 
+			}
+		}
+		
+		if (b) {
+			for (int k = 0; k < v.length; k++) {
+				v[k] = v[k].normalize();
 			}
 		}
 		
 		return v;
 		
 	}
+	
 	
 	@Override
 	public String toString() {

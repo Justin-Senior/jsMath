@@ -29,14 +29,14 @@ public class Matrix2i {
 		return matrix[x][y];
 	}
 	
-	public static Matrix2i constMult(int c, Matrix2i m) {
+	public Matrix2i constMult(int c) {
 		
 		int[] top = new int[2];
 		int[] bot = new int[2];
 		
 		for(int i = 0; i < 2; i++) {
-			top[i] = m.get(0,i)*c;
-			bot[i] = m.get(1,i)*c;
+			top[i] = this.get(0,i)*c;
+			bot[i] = this.get(1,i)*c;
 		}
 		
 		Matrix2i ret = new Matrix2i(top, bot);

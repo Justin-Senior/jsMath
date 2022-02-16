@@ -41,14 +41,14 @@ public class Matrix2f {
 		return matrix[x][y];
 	}
 	//Multiplies matrix by a constant and returns a new matrix
-	public static Matrix2f constMult(float c, Matrix2f m) {
+	public Matrix2f constMult(float c) {
 		
 		float[] top = new float[2];
 		float[] bot = new float[2];
 		
 		for(int i = 0; i < 2; i++) {
-			top[i] = m.get(0,i)*c;
-			bot[i] = m.get(1,i)*c;
+			top[i] = this.get(0,i)*c;
+			bot[i] = this.get(1,i)*c;
 		}
 		
 		Matrix2f ret = new Matrix2f(top, bot);
@@ -96,24 +96,6 @@ public class Matrix2f {
 		return sum;
 		
 	}
-	
-	public static Matrix2f multiply(Matrix2f m1, Matrix2f m2){
-		
-		float[][] mat = new float[2][2];
-		
-		for(int i = 0; i < 2; i ++) {
-			for (int j = 0; j < 2; j++) {
-				for (int k = 0; k < 2; k++) {
-					mat[i][j] += m1.get(i, k) * m2.get(k,j);
-				}
-			}
-		}
-		
-		Matrix2f m3 = new Matrix2f(mat);
-		return m3;
-		
-	}
-	
 
 	public Matrix2f multiply(Matrix2f m2){
 		
