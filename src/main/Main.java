@@ -74,9 +74,9 @@ public class Main {
 		System.out.println(Probability.binomial(1/2, 4, 3));
 
 	
-		double[] vec1 = {1,2,1};
-		double[] vec2 = {2,9,0};
-		double[] vec3 = {3,3,4};
+		double[] vec1 = {1,1,1};
+		double[] vec2 = {0,1,1};
+		double[] vec3 = {0,0,1};
 		VectorND v1 = new VectorND(vec1);
 		VectorND v2 = new VectorND(vec2);
 		VectorND v3 = new VectorND(vec3);
@@ -85,9 +85,15 @@ public class Main {
 		
 		VectorND[] vl = {v1, v2, v3};
 		
+		VectorND[] ul = new VectorND[3];
+		
 		assert (VectorND.isBasis(vl));
 		
-		System.out.println(v2.toString());
+		ul = VectorND.gramSchmidt(vl);
+		
+		for(int i = 0; i < 3; i ++) {
+			System.out.println(ul[i].toString());
+		}
 		
 	
 	}

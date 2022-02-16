@@ -1,5 +1,5 @@
 package jsMath.vectors;
-import jsMath.exceptions.VectorSizeException;
+import jsMath.exceptions.*;
 
 import jsMath.matrices.MatrixNd;
 
@@ -24,7 +24,7 @@ public class VectorND {
 		return vector[x];
 	}
 	
-	public VectorND addVectors(VectorND v1, VectorND v2) {
+	public static VectorND addVectors(VectorND v1, VectorND v2) {
 		
 		double vec[] = new double[3]; 
 		VectorND v3 = new VectorND(vec);
@@ -49,16 +49,18 @@ public class VectorND {
 			ret += v1.getPos(i) * v2.getPos(i);
 		}
 		
-		ret = Math.sqrt(ret);{
-		}
-		
 		return ret;
 	}
 	
 	public double length() {
 		
-		return dotProd(this, this);
+		double ret = 0;
 		
+		for (int i = 0; i < this.size; i ++) {
+			ret += this.vector[i] * this.vector[i];
+		}
+		
+		return (Math.sqrt(ret));
 	}
 	
 	public static VectorND scalarMult(double x, VectorND v) {
@@ -100,6 +102,25 @@ public class VectorND {
 		System.out.println(ret.determinant());
 		
 		return (ret.determinant() != 0);
+	}
+	
+	public static VectorND[] gramSchmidt(VectorND[] u) {
+		
+		if (!isBasis(u)) {throw new VectorBasisException("List of vectors must be a basis for the space");}
+		
+		VectorND[] v = new VectorND[u.length];
+		
+		v[0] = u[0];
+		
+		for (int i = 1; i <u.length; i++) {
+			v[i] = u[i];
+			for (int j = 0; j < i; j ++) {
+				v[i] = addVectors(v[i],  scalarMult(-1 * (dotProd(u[i],v[j])/(dotProd(v[j],v[j]))), v[j])); 
+			}
+		}
+		
+		return v;
+		
 	}
 	
 	@Override
