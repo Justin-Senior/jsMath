@@ -67,6 +67,21 @@ public class Matrix2i {
 		
 	}
 	
+	// Add two matrices
+	public static Matrix2i add(Matrix2i m1, Matrix2i m2) {
+		
+		int[][] data = new int[2][2];
+		
+		for(int i = 0; i < 2; i ++) {
+			for (int j = 0; j < 2; j ++) {
+				data[i][j] = m1.get(i, j) + m2.get(i, j);
+			}
+		}
+		
+	return new Matrix2i(data);
+	
+	}
+	
 	public static Matrix2i multiply(Matrix2i m1, Matrix2i m2) {
 		
 		int[][] mat = new int[2][2];

@@ -40,22 +40,26 @@ public class MatrixNd {
 		}
 		return (new MatrixNd(idd));
 		
-		
+	}
+	
+	//Add a scalar to a matrix
+	public void scalarAdd(double c) {
+		for (int i = 0; i < this.len; i ++) {
+			for (int j = 0; j < this.len; j ++) {
+				this.matrix[i][j] += c;
+			}
+		}
 	}
 	
 	// Multiply a matrix by a constant
-	public MatrixNd constMult(double c) {
-		
-		double[][] entries = new double[this.len][this.len];
-		
+	public void constMult(double c) {
+
 		for(int i = 0; i < this.len; i++) {
 			for(int j = 0; j < this.len; j++) {
-				entries[i][j] = this.get(i, j) * c;
+				this.matrix[i][j] = this.get(i, j) * c;
 			}
 		}
 		
-		MatrixNd ret = new MatrixNd(entries);
-		return ret;
 	}
 	//Returns the sum of a row
 	public float rowSum(int x) {
@@ -80,6 +84,75 @@ public class MatrixNd {
 		return sum;
 		
 	}
+	
+	//Add two matrices
+	public void add(MatrixNd m2) {
+		
+		if (this.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
+		int len = this.len;
+		
+		double[][] data = new double[len][len];
+		
+		for(int i = 0; i < len; i ++) {
+			for (int j = 0; j < len; j++) {
+					this.matrix[i][j] += m2.get(i,j);
+			}
+		}
+		
+	}
+	
+	//Add two matrices
+	public static MatrixNd add(MatrixNd m1, MatrixNd m2) {
+		
+		if (m1.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
+		int len = m1.len;
+		
+		double[][] data = new double[len][len];
+		
+		for(int i = 0; i < len; i ++) {
+			for (int j = 0; j < len; j++) {
+					data[i][j] += m1.get(i, j) + m2.get(i,j);
+			}
+		}
+		
+		return new MatrixNd(data);
+		
+	}
+	
+	//Subtract a matrix from another matrix
+	public void subtract(MatrixNd m2) {
+		
+		if (this.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
+		int len = this.len;
+		
+		double[][] data = new double[len][len];
+		
+		for(int i = 0; i < len; i ++) {
+			for (int j = 0; j < len; j++) {
+					this.matrix[i][j] -= m2.get(i,j);
+			}
+		}
+		
+	}
+	
+	//Subtract a matrix from another matrix
+	public static MatrixNd subtract(MatrixNd m1, MatrixNd m2) {
+		
+		if (m1.len!=m2.len)throw new MatrixSizeException("Matricies must be the same size");
+		int len = m1.len;
+		
+		double[][] data = new double[len][len];
+		
+		for(int i = 0; i < len; i ++) {
+			for (int j = 0; j < len; j++) {
+					data[i][j] += m1.get(i, j) - m2.get(i,j);
+			}
+		}
+		
+		return new MatrixNd(data);
+		
+	}
+	
 	// Multiply a matrix by another matrix	
 	public MatrixNd multiply(MatrixNd m2) {
 		
@@ -102,19 +175,20 @@ public class MatrixNd {
 	}
 	
 	// returns the transpose of a matrix
-	public MatrixNd transpose() {
+	public static MatrixNd transpose(MatrixNd m1) {
 		
-		double[][] trans = new double[len][len];
+		double[][] trans = new double[m1.len][m1.len];
 		
-		for(int i = 0; i < len; i++) {
-			for (int j=0; j< len; j++) {
-				trans[j][i] = this.get(i, j);
+		for(int i = 0; i < m1.len; i++) {
+			for (int j=0; j< m1.len; j++) {
+				trans[j][i] = m1.get(i, j);
 			}
 		}
 		
 		return (new MatrixNd(trans));
 		
 	}
+	
 	// Determines if 2 matrices are approximately equal within a given tolerance
 	public boolean approxEqual(MatrixNd m2, double tol) {
 		
@@ -187,10 +261,10 @@ public class MatrixNd {
 		}
 		
 		MatrixNd cofact = new MatrixNd(minors);
-		MatrixNd adj = cofact.transpose();
+		MatrixNd adj = transpose(cofact);
 		
-		MatrixNd ret = adj.constMult(1/det);
-		return ret;
+		adj.constMult(1/det);
+		return adj;
 		
 	}
 	// Add a constant multiple of row y to row x

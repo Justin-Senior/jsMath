@@ -96,6 +96,20 @@ public class Matrix2f {
 		return sum;
 		
 	}
+	
+	public static Matrix2f add(Matrix2f m1, Matrix2f m2) {
+		
+		float[][] data = new float[2][2];
+		
+		for(int i = 0; i < 2; i ++) {
+			for (int j = 0; j < 2; j ++) {
+				data[i][j] = m1.get(i, j) + m2.get(i, j);
+			}
+		}
+		
+		return new Matrix2f(data);
+		
+	}
 
 	public Matrix2f multiply(Matrix2f m2){
 		

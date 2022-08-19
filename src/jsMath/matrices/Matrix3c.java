@@ -53,6 +53,20 @@ public class Matrix3c {
 		return (new Matrix3c(mat));
 	}
 	
+	// Add two matrices
+	public static Matrix3c add(Matrix3c m1, Matrix3c m2) {
+		
+		Complex[][] data = new Complex[3][3];
+		
+		for(int i = 0; i < 3; i ++) {
+			for (int j = 0; j < 3; j ++) {
+				data[i][j] = m1.get(i, j).add(m2.get(i, j));
+			}
+		}
+		
+	return new Matrix3c(data);
+	
+	}
 	
 	public Matrix3c multiply(Matrix3c m2) {
 		

@@ -82,6 +82,22 @@ public class Matrix3f{
 		return sum;
 		
 	}
+	
+	// Add two matrices
+	public static Matrix3f add(Matrix3f m1, Matrix3f m2) {
+		
+		float[][] data = new float[3][3];
+		
+		for(int i = 0; i < 3; i ++) {
+			for (int j = 0; j < 3; j ++) {
+				data[i][j] = m1.get(i, j) + m2.get(i, j);
+			}
+		}
+		
+	return new Matrix3f(data);
+	
+	}
+	
 	//Mutiply 2 matricies
 	public Matrix3f multiply(Matrix3f m2) {
 		

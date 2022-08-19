@@ -99,7 +99,7 @@ public class VectorND {
 		
 		MatrixNd ret = new MatrixNd(mat);
 		
-		System.out.println(ret.determinant());
+		//System.out.println(ret.determinant());
 		
 		return (ret.determinant() != 0);
 	}

@@ -49,6 +49,8 @@ public class Main {
 		MatrixNd m6 = m5.inverse();
 		
 		Matrix3c m10 = new Matrix3c(cm);
+		
+		MatrixNd m11 = m5.multiply(m6);
 
 		assert (m5.multiply(m6).approxEqual(MatrixNd.id(4), 0.001));
 		assert (m6.multiply(m5).approxEqual(MatrixNd.id(4), 0.001));
